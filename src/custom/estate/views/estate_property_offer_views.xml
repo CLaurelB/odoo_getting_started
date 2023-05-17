@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="estate_property_offer_view_form" model="ir.ui.view">
+        <field name="name">estate.property.offer.form</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <form string="Property Offer">
+                <group>
+                    <field name="price"/>
+                    <field name="partner_id"/>
+                    <field name="validity"/>
+                    <field name="date_deadline"/>
+                    <field name="status"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="estate_property_offer_view_tree" model="ir.ui.view">
+        <field name="name">estate.property.offer.tree</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <tree string="Property Offers" editable='top' decoration-success="status=='accepted'" decoration-danger="status=='refused'" >
+                <field name="price"/>
+                <field name="partner_id"/>
+                <field name="validity"/>
+                <field name="date_deadline"/>
+                <field name="property_state" invisible = '1' />
+                <!--
+                <button name="action_accept" string="Accept" type="object" icon="fa-check" attrs="{'invisible': ['|','|',('property_state', '=', 'accepted'),('property_state', '=', 'sold'),('property_state', '=', 'canceled')]}" />
+                <button name="action_refuse" string="Refuse" type="object" icon="fa-times" attrs="{'invisible': ['|','|',('property_state', '=', 'accepted'),('property_state', '=', 'sold'),('property_state', '=', 'canceled')]}" />
+                -->
+                <button name="action_accept" string="Accept" type="object" icon="fa-check" attrs="{'invisible': ['|',('status', '=', 'accepted'),('status', '=', 'refused')]}" />
+                <button name="action_refuse" string="Refuse" type="object" icon="fa-times" attrs="{'invisible': ['|',('status', '=', 'accepted'),('status', '=', 'refused')]}" />
+
+                <field name="status" invisible = '1'  />
+                <field name="property_type_id" string ="Type name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="estate_property_offer_action" model="ir.actions.act_window">
+        <field name="name">Property Offers</field>
+        <field name="res_model">estate.property.offer</field>
+        <field name="domain">[('property_type_id','=', active_id)]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>    
+   
